@@ -13,6 +13,8 @@ const router = express.Router();
 
 //Aqui vai retornar um objeto de login com auth: true, token e um usuario admin de mentira
 // Se quiser testar o login de verdade, só subir no docker tudo isso aqui, comentar a função abaixo e descomentar a de cima
+//Da pra testar no docker desse jeito também, sem descomentar as funções, ai sempre vai retornar esse user aqui
+//
 router.post("/login", (req, res, next) => {
   return res
     .status(200)
