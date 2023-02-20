@@ -67,10 +67,4 @@ services:
     networks:
       - backend
 
-  auth_ws:
-    image: 
-    container_name: name
-    networks:
-      - backend
-
 
