@@ -18,11 +18,6 @@ services:
     restart: always
     ports: 
       - 27017:27017
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo 10.10.10.60:27017/test --quiet
-      interval: 30s
-      timeout: 45s
-      retries: 10
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: admin
@@ -32,26 +27,6 @@ services:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     networks:
       - mongo_network
-
-  # # MongoDB GUI (Mongo Express)
-  # mongo-express:
-  #   container_name: mongo_GUI
-  #   image: mongo-express
-  #   restart: always
-  #   ports:
-  #     - 27018:8081
-  #   environment:
-  #      ME_CONFIG_BASICAUTH_USERNAME: root
-  #      ME_CONFIG_BASICAUTH_PASSWORD: admin
-  #      ME_CONFIG_MONGODB_PORT: 27017
-  #      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-  #      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
-  #      ME_CONFIG_MONGODB_SERVER: bantads_authdb
-  #      ME_CONFIG_MONGODB_ENABLE_ADMIN: true
-  #   networks:
-  #     - mongo_network
-  #   depends_on:
-  #     - bantads_authdb
 
   # API Gateway
   bantads-api-gateway:
@@ -63,8 +38,26 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ../:/usr/src/app
+      - ../:/usr/src/app:rw
     networks:
       - backend
+
+  #Authentication Service
+  auth-ws:
+    image: auth-ws:0.0.1-SNAPSHOT
+    container_name: bantads_auth-ws
+    ports:
+      - 8080:8080
+    networks:
+      - backend
+      - mongo_network
+    environment:
+      - MONGO_HOST=bantads_authdb
+    depends_on:
+      - bantads_authdb
+
+
+
+
 
 

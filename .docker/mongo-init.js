@@ -15,13 +15,13 @@ db.usuarios.insertMany([
   {
     nome: 'Admin',
     email: 'admin@email.com',
-    password: 'admin',
-    role: 'ADMIN',
+    senha: 'admin',
+    perfil: 'ADMIN',
   },
   {
     nome: 'Gerente Luis',
     email: 'luis@gerente.com',
-    password: 'gerente',
-    role: 'GERENTE',
+    senha: 'gerente',
+    perfil: 'GERENTE',
   },
 ])

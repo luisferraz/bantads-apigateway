@@ -46,22 +46,9 @@ const authResponseDecorator = function (
   }
 };
 
-const authPathResolver = function (req) {
-  console.log(`Antes: ${req.url}`);
-  var newPath = req.url.replace("/login", "/usuarios");
-  console.log(`New Path: ${newPath}`);
-  const { user: email, password: senha } = req.body;
-  var queryParams = new URLSearchParams({ email, senha });
-
-  newPath += queryParams ? `?${queryParams.toString()}` : "";
-  console.log(newPath);
-  return newPath;
-};
-
 const loginServiceProxy = httpProxy(
-  `${process.env.HOST}:${process.env.AUTH_SERVICE_PORT}`,
+  `${process.env.AUTH_SERVICE_HOST}`,
   {
-    // proxyReqPathResolver: authPathResolver, //Essa so pro json-server
     proxyReqBodyDecorator: authBodyDecorator,
     proxyReqOptDecorator: authHeadersDecorator,
     userResDecorator: authResponseDecorator,
